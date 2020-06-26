@@ -8,9 +8,11 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping(value = "/api_v1/person")
@@ -21,14 +23,18 @@ public class PersonEndPoint {
 
     @GetMapping
     public List<Person> persons(@RequestParam("search") String search) {
+
         PersonSpecificationsBuilder builder = new PersonSpecificationsBuilder();
         Pattern pattern = Pattern.compile("(\\w+?)(:)(\\w+?),");
         Matcher matcher = pattern.matcher(search + ",");
         while (matcher.find()) {
+            String x = matcher.group(1) + matcher.group(2) + matcher.group(3);
             builder.with(matcher.group(1), matcher.group(2), matcher.group(3));
         }
+
         Specification<Person> spec = builder.build();
         return personService.getAll(spec);
+
     }
 
     @GetMapping(value = "/{id}")
@@ -42,4 +48,9 @@ public class PersonEndPoint {
         return personService.savePerson(person);
     }
 
+    @PostMapping(value = "/update")
+    public Person updatePerson(@RequestBody Person person) {
+        System.out.println(person.getFirstname());
+        return personService.update(person);
+    }
 }

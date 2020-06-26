@@ -24,4 +24,14 @@ public class PersonService {
     public Person savePerson(Person person) {
         return respon.save(person);
     }
+
+    public Person updatePerson(Person person) {
+        return respon.save(person);
+    }
+
+    public Person update(Person person) {
+        Person x = respon.findById(person.getId()).orElse(null);
+        x = person;
+        return respon.save(x);
+    }
 }

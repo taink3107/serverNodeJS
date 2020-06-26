@@ -7,14 +7,13 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class CategoryService {
     @Autowired
     CateRespon respon;
 
-    public List<Category> findAll() {
+    public List<Category> findAll(Specification specification) {
         return respon.findAll();
     }
 
@@ -23,8 +22,15 @@ public class CategoryService {
     }
 
     public List<Category> getByPersonId(Long id) {
+        return respon.getByPersonID(id);
+    }
 
-        return null;
+    public Category save(Category category) {
+        return respon.save(category);
+    }
+
+    public Long totalCategory(Long id) {
+        return respon.countByPersonId(id);
     }
 
 }

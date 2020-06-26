@@ -1,22 +1,19 @@
 package com.example.demo.endpoint;
 
 import com.example.demo.domain.Category;
-import com.example.demo.domain.Person;
 import com.example.demo.service.CategoryService;
-import com.example.demo.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.xml.crypto.Data;
-import java.sql.Date;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import javax.validation.Valid;
 import java.util.List;
 
 
+@Validated
 @RestController
 @RequestMapping("/api_v1/cate")
 @CrossOrigin("*")
@@ -24,27 +21,20 @@ public class CateEndPoint {
     @Autowired
     CategoryService service;
 
-    @GetMapping
-    public ResponseEntity<List<Category>> responseEntity() {
-        List<Category> categories = service.findAll();
-        ResponseEntity<List<Category>> entity = new ResponseEntity<List<Category>>(categories, HttpStatus.OK);
-        return entity;
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<List<Category>> responseEntityById(@PathVariable Long id) {
+        List<Category> list = service.getByPersonId(id);
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<Category> responseEntityById(@PathVariable Long id) {
-        // List<Category> categories = service.getByPersonId(id);
-        Category category = new Category();
-        category.setId(1L);
-        category.setName("Haha");
-        Person p = new Person();
-        p.setId(1L);
-        p.setFirstname("Tai");
-        p.setLastname("Haha");
-        Date date = new Date(12344345654654L);
-        p.setAge(20);
-        p.setDob(date);
-        category.setPerson(p);
-        return new ResponseEntity<Category>(category, HttpStatus.OK);
+    @PostMapping(value = "/save")
+    public ResponseEntity<Category> save(@RequestBody @Valid Category category) {
+        return new ResponseEntity<>(service.save(category), HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/exist/{id}")
+    public ResponseEntity<Long> getTotalCategory(@PathVariable Long id) {
+        Long id2 = service.totalCategory(id);
+        return new ResponseEntity<>(id2, HttpStatus.OK);
     }
 }

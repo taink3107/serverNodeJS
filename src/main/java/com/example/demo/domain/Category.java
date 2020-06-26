@@ -3,6 +3,8 @@ package com.example.demo.domain;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
@@ -14,7 +16,9 @@ import java.util.Set;
 public class Category  implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
+    @NotBlank(message = "name of category cannot be null")
     private String name;
     @ManyToOne
     @JoinColumn(name = "person_id")
