@@ -3,6 +3,7 @@ package com.example.demo.domain;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -13,15 +14,17 @@ import java.util.Set;
 
 @Data
 @Entity(name = "category")
-public class Category  implements Serializable {
+public class Category implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
+    @Min(value = 50,message = "erorrs_mess4")
     private Long id;
-    @NotBlank(message = "name of category cannot be null")
+
+    @NotBlank(message = "errors_mess2")
     private String name;
     @ManyToOne
     @JoinColumn(name = "person_id")
+    @NotNull(message = "errors_mess3")
     private Person person;
     public Category() {
     }

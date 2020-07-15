@@ -50,7 +50,7 @@ public class PersonEndPoint {
 
     @PostMapping(value = "/update")
     public Person updatePerson(@RequestBody Person person) {
-        System.out.println(person.getFirstname());
+        System.out.println(person);
         return personService.update(person);
     }
 }

@@ -3,6 +3,8 @@ package com.example.demo.endpoint;
 import com.example.demo.domain.Category;
 import com.example.demo.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -20,6 +22,10 @@ import java.util.List;
 public class CateEndPoint {
     @Autowired
     CategoryService service;
+
+    @Autowired
+    @Qualifier("messconfig")
+    MessageSource messageSource;
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<List<Category>> responseEntityById(@PathVariable Long id) {
